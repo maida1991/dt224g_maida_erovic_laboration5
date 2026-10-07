@@ -1,7 +1,7 @@
 "use strict";
 /*
  * Laboration 5 - Studentkortsgenerator
- * Namn: DITT NAMN
+ * Namn: Maida Erovic
  */
 
 // Hämta element från DOM
@@ -33,11 +33,26 @@ let history = [];
  * @returns {boolean}
  */
 function validateForm() {
-    // Kontrollera formulärets obligatoriska fält
+    // Töm tidigare fel inför varje validering
+    errors = [];
 
-    // Visa eventuella felmeddelanden
+    // Kontrollera att obligatoriska fält är ifyllda
+    if (fullnameInput.value.trim() === "") {
+        errors.push("Ange ditt namn.");
+    }
 
-    // Returnera resultatet (true eller false) av valideringen
+    if (emailInput.value.trim() === "") {
+        errors.push("Ange din e-postadress.");
+    }
+
+    if (phoneInput.value.trim() === "") {
+        errors.push("Ange ditt telefonnummer.");
+    }
+
+    displayErrors();
+
+    // Formuläret är giltigt om inga felmeddelanden finns
+    return errors.length === 0;
 }
 
 
