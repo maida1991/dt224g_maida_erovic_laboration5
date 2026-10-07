@@ -60,11 +60,16 @@ function validateForm() {
  * Visar felmeddelanden på sidan.
  */
 function displayErrors() {
-    // Rensa tidigare felmeddelanden
+    // Ta bort tidigare felmeddelanden från sidan.
+    errorList.textContent = "";
 
-    // Skriv ut aktuella felmeddelanden till DOM
+    // Skapa en listpunkt för varje felmeddelande.
+    errors.forEach(function (error) {
+        const listItem = document.createElement("li");
+        listItem.textContent = error;
+        errorList.appendChild(listItem);
+    });
 }
-
 
 /**
  * Skapar ett studentkort och visar det på sidan.
@@ -129,13 +134,24 @@ function deleteHistory() {
 
 
 // Eventlyssnare
+// Låt JavaScript hantera valideringen av formuläret.
+form.noValidate = true;
 
+// Förhindra omladdning och kontrollera formulärets värden.
+form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    if (validateForm()) {
+        createStudentCard();
+    }
+});
+        
 // När formuläret skickas:
 // - validera inmatningen
 // - skapa studentkort om valideringen lyckas
 
 
-// När användaren klickar på "Rensa"
+// När användaren klickar på "Rensa" formuläret
 
 
 // När användaren klickar på "Radera historik"
