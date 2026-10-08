@@ -60,31 +60,52 @@ function validateForm() {
  * Visar felmeddelanden på sidan.
  */
 function displayErrors() {
-    // Rensa tidigare felmeddelanden
+    // Ta bort tidigare felmeddelanden från sidan.
+    errorList.textContent = "";
 
-    // Skriv ut aktuella felmeddelanden till DOM
+    // Skapa en listpunkt för varje felmeddelande.
+    errors.forEach(function (error) {
+        const listItem = document.createElement("li");
+        listItem.textContent = error;
+        errorList.appendChild(listItem);
+    });
 }
-
 
 /**
  * Skapar ett studentkort och visar det på sidan.
  */
 function createStudentCard() {
-    // Hämta information från formuläret
+    // Hämta information från formuläret.
+    const student = {
+        fullname: fullnameInput.value.trim(),
+        email: emailInput.value.trim(),
+        phone: phoneInput.value.trim(),
+        font: fontSelect.value
+    };
 
-    // Uppdatera studentkortet
+    // Visa studentens information på kortet.
+    previewFullname.textContent = student.fullname;
+    previewEmail.textContent = student.email;
+    previewPhone.textContent = student.phone;
 
-    // Lägg till studentkortet i historiken
+    // Använd det valda typsnittet för kortets information.
+    previewFullname.style.fontFamily = student.font;
+    previewEmail.style.fontFamily = student.font;
+    previewPhone.style.fontFamily = student.font;
 
-    // Spara och uppdatera historiken
+    // Lägg det senaste studentkortet först i historiken.
+    history.unshift(student);
+
+    // Spara historiken och uppdatera visningen direkt.
+    saveHistory();
+    renderHistory();
 }
-
 
 /**
  * Sparar historiken i localStorage.
  */
 function saveHistory() {
-    // Spara history i localStorage
+    localStorage.setItem("history", JSON.stringify(history));
 }
 
 
@@ -93,8 +114,13 @@ function saveHistory() {
  */
 function loadHistory() {
     // Hämta eventuell sparad historik
+    const savedHistory = localStorage.getItem("history");
+    if (savedHistory) {
+        history = JSON.parse(savedHistory);
+    }
 
     // Uppdatera history
+    renderHistory();
 }
 
 
@@ -102,10 +128,25 @@ function loadHistory() {
  * Visar historiken på sidan.
  */
 function renderHistory() {
-    // Rensa tidigare visad historik
+    // Rensa tidigare visad historik.
+    historySection.textContent = "";
 
-    // Skriv ut innehållet i history till DOM
+    // Skapa en lista för sparade studentkort.
+    const historyList = document.createElement("ul");
+
+    history.forEach(function (student) {
+        const listItem = document.createElement("li");
+
+        listItem.textContent =
+            `${student.fullname} - ${student.email} - ${student.phone}`;
+
+        listItem.style.fontFamily = student.font;
+        historyList.appendChild(listItem);
+    });
+
+    historySection.appendChild(historyList);
 }
+
 
 
 /**
@@ -129,13 +170,25 @@ function deleteHistory() {
 
 
 // Eventlyssnare
+// Låt JavaScript hantera valideringen av formuläret.
+form.noValidate = true;
 
+// Förhindra omladdning och kontrollera formulärets värden.
+form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    if (validateForm()) {
+        createStudentCard();
+    }
+});
+
+loadHistory();
 // När formuläret skickas:
 // - validera inmatningen
 // - skapa studentkort om valideringen lyckas
 
 
-// När användaren klickar på "Rensa"
+// När användaren klickar på "Rensa" formuläret
 
 
 // När användaren klickar på "Radera historik"
