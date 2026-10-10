@@ -153,9 +153,22 @@ function renderHistory() {
  * Rensar formulär, aktuellt studentkort och felmeddelanden.
  */
 function clearForm() {
-    // Återställ formulär och studentkort
+    // Återställ formulärets fält och typsnittsval.
+    form.reset();
 
-    // Rensa eventuella felmeddelanden
+    // Återställ studentkortets innehåll.
+    previewFullname.textContent = "Namn";
+    previewEmail.textContent = "E-post";
+    previewPhone.textContent = "Telefon";
+
+    // Ta bort det tidigare valda typsnittet.
+    previewFullname.style.fontFamily = "";
+    previewEmail.style.fontFamily = "";
+    previewPhone.style.fontFamily = "";
+
+    // Töm och ta bort felmeddelanden.
+    errors = [];
+    displayErrors();
 }
 
 
@@ -163,9 +176,12 @@ function clearForm() {
  * Raderar hela historiken.
  */
 function deleteHistory() {
-    // Radera sparad historik
+    // Ta bort historiken från localStorage.
+    localStorage.removeItem("history");
 
-    // Uppdatera history och visningen på sidan
+    // Töm arrayen och uppdatera historiken på sidan.
+    history = [];
+    renderHistory();
 }
 
 
