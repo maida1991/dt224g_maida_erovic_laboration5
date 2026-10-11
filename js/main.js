@@ -32,6 +32,7 @@ let history = [];
  * Validerar formulärets inmatning.
  * @returns {boolean}
  */
+
 function validateForm() {
     // Töm tidigare fel inför varje validering
     errors = [];
@@ -198,17 +199,13 @@ form.addEventListener("submit", function (event) {
     }
 });
 
+
+// När användaren klickar på "Rensa" formuläret.
+clearButton.addEventListener("click", clearForm);
+
+// När användaren klickar på "Radera historik".
+deleteHistoryButton.addEventListener("click", deleteHistory);
+
+
+// - läs in och visa eventuell tidigare historik.
 loadHistory();
-// När formuläret skickas:
-// - validera inmatningen
-// - skapa studentkort om valideringen lyckas
-
-
-// När användaren klickar på "Rensa" formuläret
-
-
-// När användaren klickar på "Radera historik"
-
-
-// När sidan laddas:
-// - läs in och visa eventuell tidigare historik
